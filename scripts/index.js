@@ -40,7 +40,6 @@ const setBombs = (amount, cellsArr) => {
     while (bombCount < bombsAmount) {
 
         const numb = randomiz(amount);
-        console.log(numb);
 
         if (cellsArr[numb].dataset.type !== '1') {
             cellsArr[numb].dataset.type = '1';
@@ -110,8 +109,6 @@ function checkCell(elem){
 
             openedCellAmount++
 
-            console.log("opened", openedCellAmount);
-
             if(!enemiesQty){
                 checkNeighbors(neededCellsArr, [elemParent, parentNeghT, parentNeghB])
             }  
@@ -120,6 +117,7 @@ function checkCell(elem){
         if (event.target.dataset.type === '1') {
                 const bombs = document.querySelectorAll('[data-type="1"]');
                 bombs.forEach((elem) => {
+                    elem.classList.remove('flag');
                     elem.classList.add('bomb-lose');
                     statusText.classList.add("lose-text")
                     statusText.innerText = "YOU LOSE"
@@ -200,7 +198,6 @@ function generateCells (qauntity) {
                                 let bombsFlaged = 0
                                 bombs.forEach((elem) => {
                                     if(elem.classList.contains("flag")){
-                                        console.log(bombsFlaged);
                                         bombsFlaged++
                                     }
                                 })
