@@ -15,7 +15,7 @@
     justify-content: space-around;
     align-items: center;
     background-color: white;
-    width: 200px;
+    width: 340px;
     height: 100px;
     border-radius: 10px;
     margin: 50px 0;
@@ -43,6 +43,10 @@
 .start-div{
     display: flex;
     height: 25px;
+}
+
+.start-div p{
+    width: 120px;
 }
 
 .start-submit-btn{

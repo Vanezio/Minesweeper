@@ -237,10 +237,12 @@ function generateCells (qauntity) {
 }
 
 submitAmountBtn.addEventListener("click", () => {
-    const userAmount = userInput.value
-    generateCells(userAmount)
-    inputWrap.className = "after-submit"
-    userInput.value = ""
+    if(userInput.value && !isNaN(userInput.value)){
+        const userAmount = userInput.value
+        generateCells(userAmount)
+        inputWrap.className = "after-submit"
+        userInput.value = ""
+    }
 })
 
 restart.addEventListener("click", () => {
