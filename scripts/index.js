@@ -1,42 +1,41 @@
-
-let flagCount
-
+// user value from input
+let userValue 
+// amount of cells on current field
 let cellAmount
-
+// amount of opened cells on current field
 let openedCellAmount = 0
-
+// amount of bombs on current field
 let bombsAmount = 0
-
-let flagsAmount = 0
-
-let looseWin = false
-
+// flag counter
+let flagCount = 0
+// game anabler
+let loseWin = false
+// field for cells
 const field = document.querySelector('.play-field');
-
+// text with status of your game
 const statusText = document.querySelector('.status-text')
-
+// visual counter flags to bombs
 const flagBombCount = document.querySelector('.flags-to-bombs')
-
+// case for user input
 const inputWrap = document.querySelector('.start-div')
-
+// input where user can enter amount of cells( one side duplicates other one)
 const userInput = document.querySelector('.start-input')
-
+// button to submit user's value
 const submitAmountBtn = document.querySelector('.start-submit-btn')
-
+// button to restart the hole game
 const restart = document.querySelector('.restart-btn')
 
-//рандомайзер для растоновки бомб
+//randomizer for bombs
 const randomiz = (amount) => {
     return  randomNumb = Math.round(Math.random()* (amount - 1) );
 };
 
-//функция расставляющая бомбы по карте
-
+//function to set all the bombs
 const setBombs = (amount, cellsArr) => {
 
     let bombCount = 0;
 
-    bombsAmount = Math.round((amount / 6))
+    bombsAmount = Math.floor((amount / 6))
 
     while (bombCount < bombsAmount) {
 
@@ -50,6 +49,7 @@ const setBombs = (amount, cellsArr) => {
     }
 }
 
+// function wich checks all cells around element
 function lookAround( numbers , rows = [parentRow, topRow, botRow]) {
 
         let bombsAround = 0
@@ -59,7 +59,7 @@ function lookAround( numbers , rows = [parentRow, topRow, botRow]) {
                 const rowChildren = row.children
     
                 numbers.forEach((elem) => {
-                    if(elem > 0 && elem < 9 ) {
+                    if(elem > 0 && elem < userValue ) {
                         if(rowChildren[elem - 1].dataset.type === "1") {
                             bombsAround++
                         }
@@ -72,13 +72,13 @@ function lookAround( numbers , rows = [parentRow, topRow, botRow]) {
 
 }
 
+// function wich checks all neighbors of our target element as a target elements (works only if all neighbors are not bombs)
 function checkNeighbors( numbers , rows = [parentRow, topRow, botRow]) {
-
         rows.forEach((row) => {
             if(row){
                 const rowChildren = row.children
                 numbers.forEach((elem) => {
-                    if(elem > 0 && elem < 9 ) {
+                    if(elem > 0 && elem < userValue ) {
                         if(rowChildren[elem - 1].dataset.type !== "1") {
                             checkCell(rowChildren[elem - 1])
                         }
@@ -89,8 +89,9 @@ function checkNeighbors( numbers , rows = [parentRow, topRow, botRow]) {
 }
 
 
-//function to check all cells around
+//function to check all neighbor cells around target element
 function checkCell(elem){
+    if(!elem.classList.contains("flag")){
         if(elem.dataset.type === "0"){
             elem.dataset.type = "3"
             elem.classList.remove("flag")
@@ -115,15 +116,16 @@ function checkCell(elem){
                 checkNeighbors(neededCellsArr, [elemParent, parentNeghT, parentNeghB])
             }  
         }   
-        //  иф для нажатия на бомбу- при котором ты проигрываешь
+        //  case if target element is a bomb
         if (event.target.dataset.type === '1') {
                 const bombs = document.querySelectorAll('[data-type="1"]');
                 bombs.forEach((elem) => {
-                    elem.classList.add('bomb-loose');
-                    statusText.classList.add("loose-text")
-                    statusText.innerText = "YOU LOOSE"
-                    looseWin = true
+                    elem.classList.add('bomb-lose');
+                    statusText.classList.add("lose-text")
+                    statusText.innerText = "YOU LOSE"
+                    loseWin = true
                 });
+        }
         }
 }
 
@@ -133,12 +135,12 @@ function generateCells (qauntity) {
     
     cellAmount = qauntity * qauntity
 
-    flagsNBombs = Math.round((cellAmount / 6))
+    userValue = +qauntity + 1
+
+    flagsNBombs = Math.floor((cellAmount / 6))
 
     let rowsCount = 0,
         cellCount = 0
-
-    
 
     while(rowsCount < qauntity){
         let everyRow = document.createElement("div")
@@ -160,7 +162,7 @@ function generateCells (qauntity) {
                 if(restart.className === "restart-btn"){
                     restart.className = "restart-show"
                 }
-                if(!looseWin){
+                if(!loseWin){
                     
                     checkCell(event.target)
                     if(openedCellAmount === cellAmount - flagsNBombs){
@@ -169,7 +171,7 @@ function generateCells (qauntity) {
                             elem.classList.add('bomb-win');
                             statusText.classList.add("win-text")
                             statusText.innerText = "YOU WIN"
-                            looseWin = true
+                            loseWin = true
                         });
 
                     }
@@ -180,21 +182,41 @@ function generateCells (qauntity) {
             //Ивент для правой кнопки мыши
             everyCell.addEventListener('contextmenu', (event) => {
                 event.preventDefault();
+                if(event.target.classList.contains("field-cell")){
                     if(restart.className === "restart-btn"){
                         restart.className = "restart-show"
                     }
-                    if(!looseWin){
-                        if(event.target.dataset !== "3"){
+                    if(!loseWin){
+                        if(event.target.dataset.type !== "3"){
                             if(event.target.className.includes("flag")){
                                 event.target.classList.remove("flag")
-                                flagsAmount = flagsAmount - 1
-                            } else if(flagsAmount < bombsAmount){
+                                flagCount = flagCount - 1
+                            } else if(flagCount < bombsAmount){
                                 event.target.classList.add("flag")
-                                flagsAmount++
+                                ++flagCount
+                            }
+                            if(flagCount === bombsAmount){
+                                const bombs = document.querySelectorAll('[data-type="1"]');
+                                let bombsFlaged = 0
+                                bombs.forEach((elem) => {
+                                    if(elem.classList.contains("flag")){
+                                        console.log(bombsFlaged);
+                                        bombsFlaged++
+                                    }
+                                })
+                                if(bombsAmount === bombsFlaged){
+                                    bombs.forEach((elem) => {
+                                        elem.classList.add('bomb-win');
+                                        statusText.classList.add("win-text")
+                                        statusText.innerText = "YOU WIN"
+                                        loseWin = true
+                                    });
+                                }
                             }
                         }
-                        flagBombCount.innerText = `flags to bombs: ${flagsAmount}/${bombsAmount}`
+                        flagBombCount.innerText = `flags to bombs: ${flagCount}/${bombsAmount}`
                     }
+                }
             })
 
             field.addEventListener('contextmenu', (event) => {
@@ -222,17 +244,15 @@ submitAmountBtn.addEventListener("click", () => {
 })
 
 restart.addEventListener("click", () => {
-    flagCount = 0
-
     cellAmount = 0
 
     openedCellAmount = 0
 
     bombsAmount = 0
 
-    flagsAmount = 0
+    flagCount = 0
 
-    looseWin = false
+    loseWin = false
 
     field.innerHTML = ""
 

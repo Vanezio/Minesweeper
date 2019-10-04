@@ -35,7 +35,7 @@
     color: green;
 }
 
-.loose-text{
+.lose-text{
     font-size: 25px;
     color: red;
 }
@@ -95,12 +95,11 @@
     background: white;
 }
 
-
-.bomb-loose{
+.bomb-lose{
     background-color: red;
 }
 
-.bomb-loose:after{
+.bomb-lose:after{
     position: absolute;
     content: "";
     width: 10px;
@@ -113,7 +112,7 @@
     transform: rotate(45deg)
 }
 
-.bomb-loose:before{
+.bomb-lose:before{
     position: absolute;
     content: "";
     width: 10px;
