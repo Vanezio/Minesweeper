@@ -73,7 +73,9 @@
 }
 
 .field-cell{
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     width: 35px;
     height: 35px;
@@ -87,10 +89,6 @@
     color: red;
     font-size: 30px;
     font-weight: 700;
-}
-
-[data-type = "1"]{
-    background: yellow;
 }
 
 [data-type = "3"]{
