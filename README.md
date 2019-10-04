@@ -1,5 +1,5 @@
-# Saper 
-Link on git hub pages https://vanezio.github.io/Saper/
+# Minesweeper 
+Link on git hub pages https://vanezio.github.io/Minesweeper/
 
 Click: open a cell
 
