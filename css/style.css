@@ -1,0 +1,168 @@
+.main{
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    min-height: 100vh;
+    max-height: 100%;
+    background-color: #3cb878;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    margin: 50px 0;
+}
+
+.restart-btn{
+    display: none;
+}
+
+.restart-show{
+    display: block;
+}
+
+
+.win-text{
+    font-size: 25px;
+    color: green;
+}
+
+.loose-text{
+    font-size: 25px;
+    color: red;
+}
+
+.start-div{
+    display: flex;
+    height: 25px;
+}
+
+.start-submit-btn{
+    width: 25px;
+    height: 100%;
+}
+
+.after-submit{
+    display: none;
+}
+
+
+
+
+
+.play-field{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.field-row{
+    display: flex;
+    background: #c5ab91;
+}
+
+.field-cell{
+    display: inline-block;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    border: 2px solid black; 
+    text-align: center;
+    background-color: #443322;
+    margin: 2px;
+}
+
+.event-text{
+    color: red;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+[data-type = "1"]{
+    background: yellow;
+}
+
+[data-type = "3"]{
+    background: white;
+}
+
+
+.bomb-loose{
+    background-color: red;
+}
+
+.bomb-loose:after{
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: 3px solid black;
+    border-left: 3px solid black;
+
+    left: 12px;
+    top: 19px;
+    transform: rotate(45deg)
+}
+
+.bomb-loose:before{
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;  
+    left: 12px;
+    top: 5px;
+    transform: rotate(45deg)
+}
+
+
+.bomb-win{
+    background-color: green;
+}
+
+.bomb-win:after{
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-radius: 50%;
+    left: 5px;
+    top: 5px;
+}
+
+.flag{
+    position: relative;
+}
+
+.flag:after{
+    position: absolute;
+    content: "";
+    height: 20px;
+    border-left: 3px solid black;
+    left: 5px;
+    top: 5px;
+}
+
+.flag:before{
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 10px;
+    background-color: yellow;
+    left: 8px;
+    top: 6px;
+}
+
